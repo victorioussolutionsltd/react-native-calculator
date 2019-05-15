@@ -1,36 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
-class Numbers extends React.Component{
+function Numbers(props) {
 
-    constructor(props){
-        super(props);
-        this.buttonLabels = [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['.', 0, '=']];
-    }
-
+    let buttonLabels = [[7, 8, 9], [4, 5, 6], [1, 2, 3], ['.', 0, '=']];
+ 
     buttonPressed = (val) => {
         const text = val + '';
-        this.props.buttonClicked(text);
+        props.buttonClicked(text);
     }
 
-    render(){
-
-        let rows = []
-        for( let i = 0; i < this.buttonLabels.length; i++){
-        let row = []
-        for(let j=0; j < 3; j++){
-            row.push(<TouchableOpacity onPress={() => this.buttonPressed(this.buttonLabels[i][j])}key={(i+2)*j} style={styles.btn}><Text style={styles.btntext}>{this.buttonLabels[i][j]}</Text></TouchableOpacity>
-            )
-        }
-        rows.push(<View key={i}style={styles.row}>{row}</View>)
-        }
-
-        return (
-            <View style={styles.numbers}>
-            {rows}
-            </View>
-        );
+    let rows = []
+    for( let i = 0; i < buttonLabels.length; i++){
+    let row = []
+    for(let j=0; j < 3; j++){
+        row.push(<TouchableOpacity onPress={() => buttonPressed(buttonLabels[i][j])}key={(i+2)*j} style={styles.btn}><Text style={styles.btntext}>{buttonLabels[i][j]}</Text></TouchableOpacity>
+        )
     }
+    rows.push(<View key={i}style={styles.row}>{row}</View>)
+    }
+
+    return (
+        <View style={styles.numbers}>
+        {rows}
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
