@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { red } from 'ansi-colors';
 
 import * as math from 'mathjs';
 
@@ -17,7 +16,7 @@ export default class App extends React.Component {
       resultText: "",
     }
 
-    this.operations = [ 'C', 'D', '+', '-', '*', '/']
+    this.operations = [ '+', '-', '*', '/', 'D', 'C']
   }
 
   operationClicked = (operation) =>{
@@ -41,7 +40,9 @@ export default class App extends React.Component {
       case '/':
 
       const lastChar = this.state.expressionText.split('').pop();
-      if(this.operations.indexOf(lastChar) > 0 ) return;
+      if(this.operations.indexOf(lastChar) > -1 ) return;
+
+      if(lastChar == '.') return;
 
         this.setState({
           expressionText: this.state.expressionText + operation
@@ -51,6 +52,15 @@ export default class App extends React.Component {
   }
 
   numberClicked = (text) => {
+
+    const lastChar = this.state.expressionText.split('').pop();
+
+    const numberEnteredBefore = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ].indexOf(lastChar) > -1;
+
+    if(text == '.' && !numberEnteredBefore) return;
+
+
+
     if (text == '='){
       this.calculateResult();
       return;
@@ -104,14 +114,14 @@ const styles = StyleSheet.create({
   },
   result: {
     flex: 2,
-    backgroundColor: 'green',
+    backgroundColor: 'orange',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
   expressionText: {
     flex: 5,
     fontSize: 39,
-    color: 'white',
+    color: 'black',
     justifyContent: 'center',
     paddingTop: 30
     },
